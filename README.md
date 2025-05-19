@@ -1,67 +1,37 @@
-# albatross
-Albatross is a modular mid-level network stress testing and simulating DDoS (Distributed Denial-of-Service) scenarios
+# Albatross
 
-This Python tool runs multiple concurrent bots that repeatedly perform:
+**Albatross** is a combined network stress testing and DDoS simulation toolkit. It integrates UDP/TCP flooding with SSL certificate and HTTP response checking for server resilience analysis.
 
-- An SSL handshake check using OpenSSL (`openssl s_client`)  
-- An HTTPS GET request with randomized User-Agent headers  
+## Features
 
-It logs the results (timestamps, SSL success, cert issuer & expiry, HTTP status & response time, user-agent) to a CSV file.
-
----
-
-## Requirements
-
-- Python 3.7+  
-- OpenSSL CLI installed (`openssl` command available)  
-- Python package: `requests`
-
-Install the package with:
-
-```bash
-pip install -r requirements.txt
-```
-
----
+- UDP Flood
+- TCP SYN Flood
+- SSL Certificate Validation
+- HTTP Response Checker with random User-Agent spoofing
 
 ## Usage
 
 ```bash
-python albatross.py TARGET_HOST [options]
+python albatross.py --ip <target_ip> --url <https_url> [--duration <seconds>] [--out <output_file.csv>]
 ```
 
-### Options
+### Arguments:
 
-| Option           | Description                                   | Default       |
-|------------------|-----------------------------------------------|---------------|
-| `-p, --port`     | Target port (usually 443)                     | 443           |
-| `-d, --duration` | Duration of the test in minutes               | 3             |
-| `-b, --bots`     | Number of concurrent bots (threads)           | 3             |
-| `--min-interval` | Minimum seconds between checks per bot        | 3             |
-| `--max-interval` | Maximum seconds between checks per bot        | 7             |
-| `-o, --output`   | CSV output filename                           | results.csv   |
+- `--ip` : Target IP or domain for UDP/TCP stress test (e.g., `example.com`)
+- `--url` : HTTPS URL for SSL/HTTP analysis (e.g., `https://example.com`)
+- `--duration` : Duration for all operations in seconds (default: `60`)
+- `--out` : CSV output filename for SSL/HTTP results (default: `results.csv`)
 
----
-
-## Example
-
-Run 5 bots for 5 minutes with 2-6 seconds randomized interval:
+### Example:
 
 ```bash
-python albatross.py example.com -b 5 -d 5 --min-interval 2 --max-interval 6 -o results.csv
+python albatross_combined.py --ip example.com --url https://example.com --duration 120 --out results.csv
 ```
 
----
+## Disclaimer
 
-## Graceful Shutdown
-
-Press Ctrl+C to stop the test early; results collected so far will be saved.
-
----
+Use only on systems you own or have explicit permission to test. Unauthorized usage is illegal.
 
 ## Notes
 
-- Requires `openssl` CLI tool installed and in your PATH.  
-- Random User-Agent headers simulate diverse clients.  
-- This tool is intended for authorized testing only. Do not use against unauthorized targets.
-- Need 1000 Mbps internet bandwith with stable connection 
+Need 1000 MBPS of internet bandwith with stable connection
