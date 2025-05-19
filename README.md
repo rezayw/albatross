@@ -64,3 +64,4 @@ Press Ctrl+C to stop the test early; results collected so far will be saved.
 - Requires `openssl` CLI tool installed and in your PATH.  
 - Random User-Agent headers simulate diverse clients.  
 - This tool is intended for authorized testing only. Do not use against unauthorized targets.
+- Need 1000 Mbps internet bandwith with stable connection 
